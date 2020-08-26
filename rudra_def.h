@@ -1,40 +1,52 @@
-#ifndef __STDLIB_H        // Header Guard stdlib start
-#include<stdlib.h>
-#endif                    // Header Guard Stdlib end
-/* File Containing global definations*/
-#ifndef __RUDRA_DEF_H            //Hearder Guard Rudra Start
+/**
+ * File Containing global definations
+ */
+#ifndef __RUDRA_DEF_H
 #define __RUDRA_DEF_H
+
+#include<assert.h>
+
+#define RUDRA_ASSERT(reason) assert(reason)
+#define RUDRA_ASSERT_MSG(reason, msg) assert((reason) && (msg))
+
 /**
  * TODO: know what *oputut do
  * FIXME: code and comment
  */
 
-#ifdef __cpluscplus
+#include <stdlib.h>
+
+#ifdef __cplusplus
 extern "C" {
 #endif
-/*Structure defining a neural network interface*/
+
+/**
+ * struct rudra_ann - defines the structure of a neural network interface
+ * @n_inputs: number of categories/features/rows of inputs
+ * @n_hlayers: number of hidden layers
+ * @n_hnodes: number of hidden nodes
+ * @n_outputs: number of outputs
+ * @t_weights: total weights (hidden weights + output weights)
+ * @t_neurons: total neurons
+ * @weight: array that contains all the weights (weight[t_weights])
+ * @output: array that contains all the outputs (output[t_neurons])
+ * @delta: array for delta of each hidden and output neurons
+ */
 typedef struct rudra_ann{
+	size_t n_inputs;
+	size_t n_hlayers;
+	size_t n_hnodes;
+	size_t n_outputs;
+	size_t t_weights;
+	size_t t_neurons;
 
-/*Number of neurons in input layer, Number of hidden layers , Number of hidden neurons in each layerv, Number of neurons in output layer */
-    size_t no_inputs, no_hidden_layers, no_hidden , no_outputs;
-
-    /* total no of weights used in neural network and total number of neurns used in neural network*/
-    size_t total_weights,total_neurons;
-
-    /*Each weight value(its lenght is value of total_weights)  */
-    double *weight;
-
-    /* stores input array and output of each neurons (its length is total_neurons)*/
-    double *output;
-
-    /* It stores delta of output and hidden neuron and lenth of this is=(total_neurons - inputs)*/
-    double *delta;
-
-
+	double *weight;
+	double *output;
+	double *delta;
 } rudra_ann;
 
-#ifdef __cpluscplus
+#ifdef __cplusplus
 }
 #endif
 
-#endif  /*__RUDRA_DEF_H_*/     
+#endif  /*__RUDRA_DEF_H_*/

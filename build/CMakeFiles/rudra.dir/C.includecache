@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/tronifier/Rudra-Dev/rudra_core.c
+rudra_core.h
+/home/tronifier/Rudra-Dev/rudra_core.h
+stdio.h
+-
+time.h
+-
+
+/home/tronifier/Rudra-Dev/rudra_core.h
+stdlib.h
+-
+rudra_def.h
+/home/tronifier/Rudra-Dev/rudra_def.h
+
+/home/tronifier/Rudra-Dev/rudra_def.h
+assert.h
+-
+stdlib.h
+-
+
