@@ -1,4 +1,4 @@
-#include "rudra_core.h"
+#include "rudra_init.h"
 #include <stdio.h>
 #include <time.h>
 
