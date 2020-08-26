@@ -5,7 +5,7 @@
 #define __RUDRA_DEF_H
 
 #include<assert.h>
-
+/*Runtime deagnostic function(to handle runtime assertion)*/
 #define RUDRA_ASSERT(reason) assert(reason)
 #define RUDRA_ASSERT_MSG(reason, msg) assert((reason) && (msg))
 
