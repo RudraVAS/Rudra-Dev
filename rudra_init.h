@@ -1,5 +1,5 @@
-#ifndef __RUDRA_CORE_H
-#define __RUDRA_CORE_H
+#ifndef __RUDRA_INIT_H
+#define __RUDRA_INIT_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -13,4 +13,4 @@ rudra_ann * rudra_init (size_t, size_t, size_t, size_t);
 }
 #endif
 
-#endif	/*__RUDRA_CORE_H*/
+#endif	/*__RUDRA_INIT_H*/
