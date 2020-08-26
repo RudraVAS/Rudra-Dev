@@ -1,3 +1,0 @@
-/home/tronifier/Rudra-Dev/build/CMakeFiles/rebuild_cache.dir
-/home/tronifier/Rudra-Dev/build/CMakeFiles/rudra.dir
-/home/tronifier/Rudra-Dev/build/CMakeFiles/edit_cache.dir
