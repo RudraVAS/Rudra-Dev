@@ -20,6 +20,9 @@
 extern "C" {
 #endif
 
+typedef double (* __rudra_activation)(double);
+typedef void (* __rudra_normalization)(double *);
+
 /**
  * struct rudra_ann - defines the structure of a neural network interface
  * @n_inputs: number of categories/features/rows of inputs
@@ -39,6 +42,10 @@ typedef struct rudra_ann{
 	size_t n_outputs;
 	size_t t_weights;
 	size_t t_neurons;
+
+	__rudra_activation rudra_activation;
+	__rudra_activation rudra_activation_der;
+	__rudra_normalization rudra_normalization;
 
 	double *weight;
 	double *output;

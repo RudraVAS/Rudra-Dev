@@ -1,4 +1,4 @@
-#include "rudra_core.h"
+#include "rudra_init.h"
 #include <stdio.h>
 #include <time.h>
 
@@ -15,7 +15,8 @@
  * TODO: Make a function pointer for normalization function and the activation function.
  */
 
-rudra_ann * rudra_init (size_t n_inputs, size_t n_hlayers, size_t n_hnodes, size_t n_outputs) {
+rudra_ann * rudra_init (size_t n_inputs, size_t n_hlayers, size_t n_hnodes,
+			size_t n_outputs) {
 	RUDRA_ASSERT(n_inputs > 0);
 	RUDRA_ASSERT(n_hlayers >= 0);
 	if(n_hlayers) {
