@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/rudra_normalization.h
+stdlib.h
+-
+
+/home/tronifier/nn/Rudra-Dev/unit_tests/normalize.c
+rudra_normalization.h
+/home/tronifier/nn/Rudra-Dev/unit_tests/rudra_normalization.h
+stdio.h
+-
+stdlib.h
+-
+

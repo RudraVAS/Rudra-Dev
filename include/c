@@ -1,0 +1,9 @@
+cmake_minimum_required(VERSION 2.8)
+
+project(rudra_hdr)
+set(rudra_hdr_files
+	rudra_normalization.h
+)
+
+add_library(rudra_hdr ${rdra_hdr_files})
+target_link_libraries(rudra_hdr rudra_src)
