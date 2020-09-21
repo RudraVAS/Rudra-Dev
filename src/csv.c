@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include "csv.h"
 #include "vector.h"
-#include "xalloc.h
+#include "xalloc.h"
 
 /**
  * For the future additions/patches, please keep in mind the
