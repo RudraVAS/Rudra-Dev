@@ -1,1 +1,0 @@
-/usr/bin/cc -rdynamic CMakeFiles/unit_test.dir/normalize.c.o -o unit_test   -L/home/tronifier/nn/Rudra-Dev/src  -Wl,-rpath,/home/tronifier/nn/Rudra-Dev/src -lrudra_src 
