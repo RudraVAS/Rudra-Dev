@@ -5,7 +5,7 @@ project(rudra)
 
 include_directories(include)
 file(GLOB SOURCES "src/*.c")
-#file(GLOB SOURCES1 "test/*.c")
+file(GLOB SOURCES1 "test/*.c")
 
-add_executable(rudra ${SOURCES})
+add_executable(rudra ${SOURCES} ${SOURCES1})
 target_link_libraries(rudra m)
