@@ -21,5 +21,6 @@ int main() {
 	if(!fptr) {
 		printf("ERROR");
 	}
+	xfree(fptr);
 	return 0;
 }
