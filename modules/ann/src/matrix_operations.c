@@ -1,4 +1,4 @@
-#include "matrix_operations.h"
+#include "rudra/ann/matrix_operations.h"
 #include <stdlib.h>
 #include <assert.h>
 
@@ -180,4 +180,12 @@ double **split(double **matrix, unsigned long r, unsigned long c,
 		break;
 	}
 	return ret;
+}
+
+
+void scalar_add(double a, double **arr, unsigned long r, unsigned long c)
+{
+	for (int i = 0; i < r; i++)
+		for (int j = 0; j < c; j++)
+			arr[i][j] += a;
 }

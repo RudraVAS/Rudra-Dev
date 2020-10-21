@@ -5,23 +5,28 @@
 extern "C" {
 #endif
 
-enum __base_layers {
-	INPUT,
-	OUTPUT
-};
+	enum __base_layers {
+		INPUT,
+		OUTPUT
+	};
 
-enum __activation_functions {
-	SIGMOID,
-	TANH,
-	RELU,
-	LRELU,
-	PRELU,
-	SOFTMAX,
-	SWISH
-};
+	enum a_type {
+		SIGMOID,
+		RELU,
+		LEAKY_RELU,
+		LINEAR,
+		ELU,
+		TANH
+	};
+
+	enum n_type {
+		NORMALIZE_NONE,
+		NORMALIZE_Z,
+		NORMALIZE_LOG,
+		NORMALIZE_MINIMAX
+	};
 
 #ifdef __cplusplus
 }
 #endif
-
-#endif	/* RUDRA_DEF_H */
+#endif				/* __DEF_H */

@@ -3,24 +3,25 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif	/* __cplusplus */
+#endif				/* __cplusplus */
 
-enum bool {
-	FALSE,
-	TRUE
-};
+	enum bool {
+		FALSE,
+		TRUE
+	};
 
-double **m2p(int r, int c, double arr[r][c]);
-double **matmul(double **, unsigned long, unsigned long,
-		double **, unsigned long, unsigned long);
-double **transpose(double **, unsigned long, unsigned long);
-double **split(double **, unsigned long, unsigned long,
-	       unsigned long, unsigned long, enum bool);
+	double **m2p(int r, int c, double arr[r][c]);
+	double **matmul(double **, unsigned long, unsigned long,
+			double **, unsigned long, unsigned long);
+	double **transpose(double **, unsigned long, unsigned long);
+	double **split(double **, unsigned long, unsigned long,
+		       unsigned long, unsigned long, enum bool);
+	void scalar_add(double, double **, unsigned long, unsigned long);
 
-void delcol(double **, unsigned long, unsigned long,
-	    unsigned long);
+	void delcol(double **, unsigned long, unsigned long,
+		    unsigned long);
 
 #ifdef __cplusplus
 }
-#endif	/* __cplusplus */
-#endif	/* RUDRA_MATRIX_H */
+#endif				/* __cplusplus */
+#endif				/* RUDRA_MATRIX_H */

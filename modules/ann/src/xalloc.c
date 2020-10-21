@@ -6,7 +6,7 @@
  * d3buggers out there. I just don't know.
  */
 
-#include "rudra/dp/xalloc.h"
+#include "rudra/ann/xalloc.h"
 #include <stdio.h>
 unsigned long __addr_cnt = 0;
 void **__addr_list = NULL;
@@ -14,7 +14,7 @@ void **__addr_list = NULL;
 void *xmalloc(size_t __size)
 {
 	void *__ptr = malloc(__size);
-//	printf("%p\n", __ptr);
+//      printf("%p\n", __ptr);
 	if (!__addr_cnt) {
 		__addr_list = malloc(sizeof(void **));
 	} else {
@@ -49,10 +49,10 @@ void __garbage_collector()
 {
 	while (__addr_cnt) {
 		__addr_cnt--;
-//		printf("%ld : %p\n", __addr_cnt, __addr_list[__addr_cnt]);
+//              printf("%ld : %p\n", __addr_cnt, __addr_list[__addr_cnt]);
 		xfree(__addr_list[__addr_cnt]);
 	}
       out:
-//	printf("%p\n", __addr_list);
+//      printf("%p\n", __addr_list);
 	xfree(__addr_list);
 }

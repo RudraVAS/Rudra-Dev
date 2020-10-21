@@ -1,0 +1,1 @@
+/usr/bin/cc -rdynamic CMakeFiles/rudra.dir/src/csv.o CMakeFiles/rudra.dir/src/normalization.o CMakeFiles/rudra.dir/src/vector.o CMakeFiles/rudra.dir/src/xalloc.o CMakeFiles/rudra.dir/test/main.o -o rudra  -lm 
