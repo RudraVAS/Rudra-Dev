@@ -1,4 +1,4 @@
-<img src="icon.png" align="right" />
+<img src="rudra.png" align="right" />
 
 # The Rudra Guide
 Rudra is an Open Source Neural Network with both CPU and GPU Optimization in C language. 
