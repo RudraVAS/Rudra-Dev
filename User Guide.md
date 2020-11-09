@@ -1,6 +1,6 @@
 <img src="icon.png" align="right" />
 
-## The Rudra Guide
+# The Rudra Guide
 Rudra is an Open Source Neural Network with both CPU and GPU Optimization in C language. 
 <br>This Library Consist of two modules-:
 <br>
@@ -8,7 +8,7 @@ Rudra is an Open Source Neural Network with both CPU and GPU Optimization in C l
 <br>
 *Module-2(Artificial Neural Network)*
 
-# How to Use Module-1 (Data Preprocessing Module)
+## How to Use Module-1 (Data Preprocessing Module)
 <br>
 <table style="width:100%">
   <tr>
@@ -28,7 +28,7 @@ Rudra is an Open Source Neural Network with both CPU and GPU Optimization in C l
   </tr>
 </table>
 
-# How to Use Module-2 (Artificial Neural Network Module)
+## How to Use Module-2 (Artificial Neural Network Module)
 <br>
 <table style="width:100%">
   <tr>
