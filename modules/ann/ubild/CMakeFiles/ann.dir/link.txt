@@ -1,1 +1,0 @@
-/usr/bin/cc -fPIC -shared -Wl,-soname,libann.so.1 -o libann.so.1.0.0 CMakeFiles/ann.dir/src/activation.c.o CMakeFiles/ann.dir/src/optimizer.c.o CMakeFiles/ann.dir/src/layer_manipulation.c.o CMakeFiles/ann.dir/src/matrix_operations.c.o CMakeFiles/ann.dir/src/propogation.c.o CMakeFiles/ann.dir/src/vector.c.o CMakeFiles/ann.dir/src/xalloc.c.o 

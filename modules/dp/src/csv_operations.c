@@ -5,7 +5,7 @@
 
 #include <stdio.h>
 #include <assert.h>
-#include "rudra/dp/csv.h"
+#include "rudra/dp/csv_operations.h"
 #include "rudra/dp/vector.h"
 #include "rudra/dp/xalloc.h"
 

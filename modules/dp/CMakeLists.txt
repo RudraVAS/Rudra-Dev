@@ -5,7 +5,7 @@ project(dp VERSION 1.0.0 DESCRIPTION "Only phase I of DP")
 include(GNUInstallDirs)
 
 add_library(dp SHARED
-	src/csv.c
+	src/csv_operations.c
 	src/normalization.c
 	src/vector.c
 	src/xalloc.c

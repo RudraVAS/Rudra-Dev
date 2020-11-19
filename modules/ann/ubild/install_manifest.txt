@@ -1,4 +1,0 @@
-/usr/local/lib/libann.so.1.0.0
-/usr/local/lib/libann.so.1
-/usr/local/lib/libann.so
-/usr/local/include/rudra/ann.h
