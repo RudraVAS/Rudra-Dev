@@ -11,6 +11,8 @@ extern "C" {
 	};
 
 	double **m2p(int r, int c, double arr[r][c]);
+	void matmulv(double **, double **, unsigned long, unsigned long,
+			double **, unsigned long, unsigned long);
 	double **matmul(double **, unsigned long, unsigned long,
 			double **, unsigned long, unsigned long);
 	double **transpose(double **, unsigned long, unsigned long);
@@ -23,5 +25,6 @@ extern "C" {
 
 #ifdef __cplusplus
 }
-#endif				/* __cplusplus */
-#endif				/* RUDRA_MATRIX_H */
+#endif
+
+#endif	/* RUDRA_MATRIX_H */

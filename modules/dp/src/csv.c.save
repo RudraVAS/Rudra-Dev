@@ -60,7 +60,6 @@ char **read_csv(char *__fname, unsigned char __delimiter)
 
 	char **__cmatrix = NULL;
 	char *__tbuffer = NULL;
-//	char *tmp_buffer = NULL;
 	char f = 0;
 	char exit_now = 0;
 
@@ -69,7 +68,6 @@ char **read_csv(char *__fname, unsigned char __delimiter)
 	unsigned long __col = 0;
 
 	while (__ch != EOF) {
-//		printf("%c\n", __ch);
 		switch (__ch) {
 			__check(__TAB, TAB);
 			__check(__COMMA, COMMA);
@@ -128,7 +126,7 @@ char **read_csv(char *__fname, unsigned char __delimiter)
  *	~ SEMICOLAN
  *	~ SPACE
  */
-double **f2m(char *fname, unsigned char delimiter)
+double **f2matrix(char *fname, unsigned char delimiter)
 {
 	char **cmatrix = read_csv(fname, delimiter);
 	char *ctmp = NULL;
@@ -166,7 +164,7 @@ DEBUG
 	return ret;
 }
 
-FILE *m2f(char *fname, double **matrix, unsigned long row,
+FILE *matrix2f(char *fname, double **matrix, unsigned long row,
 	       unsigned long col)
 {
 	FILE *fptr = fopen(fname, "w");

@@ -1,0 +1,7 @@
+/home/tronifier/Rudra-Dev/modules/ann/ubild/CMakeFiles/install/strip.dir
+/home/tronifier/Rudra-Dev/modules/ann/ubild/CMakeFiles/edit_cache.dir
+/home/tronifier/Rudra-Dev/modules/ann/ubild/CMakeFiles/ann.dir
+/home/tronifier/Rudra-Dev/modules/ann/ubild/CMakeFiles/rebuild_cache.dir
+/home/tronifier/Rudra-Dev/modules/ann/ubild/CMakeFiles/list_install_components.dir
+/home/tronifier/Rudra-Dev/modules/ann/ubild/CMakeFiles/install/local.dir
+/home/tronifier/Rudra-Dev/modules/ann/ubild/CMakeFiles/install.dir

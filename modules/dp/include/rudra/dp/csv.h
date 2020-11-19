@@ -18,8 +18,8 @@ extern "C" {
 #define __SPACE		' '
 
 char ** read_csv (char *, unsigned char);
-double ** f2matrix (char *, unsigned char);
-FILE * matrix2f(char *, double **, unsigned long, unsigned long);
+double ** f2m (char *, unsigned char);
+FILE * m2f(char *, double **, unsigned long, unsigned long);
 
 #ifdef __cplusplus
 }

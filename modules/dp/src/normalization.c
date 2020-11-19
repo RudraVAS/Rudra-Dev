@@ -1,6 +1,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "rudra/dp/def.h"
 #include "rudra/dp/normalization.h"
 
 /**
@@ -107,7 +108,7 @@ void rudra_minmax(double **raw_data, size_t n_rows, size_t n_cols)
  * return: void
  */
 void normalization(double **raw_data, size_t m, size_t n, size_t b,
-		   enum n_types decision)
+		   enum n_type decision)
 {
 	switch (decision) {
 	case NORMALIZE_Z:

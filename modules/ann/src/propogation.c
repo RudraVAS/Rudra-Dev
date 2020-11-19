@@ -1,6 +1,9 @@
 #include "rudra/ann/propogation.h"
 #include "rudra/ann/structure.h"
+#include "rudra/ann/matrix_operations.h"
+#include "rudra/ann/activation.h"
 #include <stddef.h>
+#include <stdlib.h>
 
 void feed_fwd(struct ann *ptr, double *in)
 {
@@ -52,152 +55,119 @@ void feed_fwd(struct ann *ptr, double *in)
 	}
 }
 
-double *cost_deriv(double *target, double **output, unsigned r)
+double cost_deriv(double target, double output)
 {
-	double *ret = malloc(sizeof(double *) * r);
-
-	for (int i = 0; i < r; i++)
-		ret[i] = output[i][0] - target[i];
-
-	return ret;
+	return output - target;
 }
 
-
-void backprop(struct ann *ptr, double *in, double *target, double lr)
-{
-	feed_fwd(ptr, in);
-	struct __layer *p_layer = ptr->layer[OUTPUT];
-	struct __layer *c_layer = ptr->n_hlayers ?
-	    ptr->hlayer[ptr->n_hlayers - 1] : ptr->layer[INPUT];
-
-	if (p_layer->derr_dout != NULL) {
-		free(p_layer->derr_dout);
-		p_layer->derr_dout = NULL;
+void __backprop_o(struct __layer * p, struct __layer * c, double * target) {
+	for(int i = 0; i < p->n_nodes; i++) {
+		p->d1[i][0] = cost_deriv(target[i], p->nodes[i][0]);
+		p->d2[i][0] = activate_deriv(p->unactiv_nodes[i][0],
+                                   p->alpha, p->act_code);
+		p->d4[i][0] = p->d1[i][0] * p->d2[i][0];
 	}
 
-	if (p_layer->derr_dw != NULL) {
-		for (int i = 0; i < p_layer->n_nodes; i++)
-			free(p_layer->derr_dw[i]);
-		free(p_layer->derr_dw);
+	if(p->d3 == NULL) {
+		p->d3 = malloc(sizeof(double));
+		p->d3[0] = malloc(sizeof(double) * c->n_nodes);
 	}
 
-	p_layer->derr_dout =
-	    cost_deriv(target, p_layer->nodes, p_layer->n_nodes);
-
-	for (int i = 0; i < p_layer->n_nodes; i++) {
-		p_layer->dout_din[i] =
-		    activate_deriv(p_layer->unactiv_nodes[i][0],
-				   p_layer->alpha, p_layer->act_code);
+	for(int i = 0; i < c->n_nodes; i++) {
+		p->d3[0][i] = c->nodes[i][0];
 	}
 
-	double **tmp = malloc(sizeof(double *) * p_layer->n_nodes);
-	for (int i = 0; i < p_layer->n_nodes; i++) {
-		tmp[i] = malloc(sizeof(double));
-		tmp[i][0] = p_layer->dout_din[i] * p_layer->derr_dout[i];
+	if(c->df == NULL) {
+		c->df = malloc(sizeof(double) * c->wr);
+		for(int i = 0; i < c->wr; i++)
+			c->df[i] = malloc(sizeof(double) * c->wc);
 	}
-	if (p_layer->din_dw == NULL) {
-		p_layer->din_dw = malloc(sizeof(double *));
-		p_layer->din_dw[0] = malloc(sizeof(double *)
-					    * c_layer->n_nodes);
-	}
-	for (int i = 0; i < c_layer->n_nodes; i++) {
-		p_layer->din_dw[0][i] = c_layer->nodes[i][0];
-	}
-	p_layer->derr_dw =
-	    matmul(tmp, p_layer->n_nodes, 1, p_layer->din_dw, 1,
-		   c_layer->n_nodes);
 
-	for (int i = 0; i < c_layer->wr; i++)
-		for (int j = 0; j < c_layer->wc; j++)
-			c_layer->weights[i][j] -=
-			    lr * p_layer->derr_dw[i][j];
+	matmulv(c->df, p->d4, p->n_nodes, 1, p->d3, 1, c->n_nodes);
+}
 
-	for (int i = 0; i < p_layer->n_nodes; i++)
-		c_layer->bias -= lr * tmp[i][0];
+void __backprop_h(struct __layer * p, struct __layer *m, struct __layer *c) {
+	double ** tmp = transpose(m->weights, m->wr, m->wc);
 
-	for (int i = 0; i < p_layer->n_nodes; i++)
+	matmulv(m->d1, tmp, m->wc, m->wr, p->d4, p->n_nodes, 1);
+
+	for(int i = 0; i < m->wc; i++)
 		free(tmp[i]);
 	free(tmp);
-/**
- * Hidden layers
- */
-	struct __layer *m_layer = NULL;
-	for (int i = ptr->n_hlayers - 1; i >= 0; i--) {
-		m_layer = c_layer;
-		if (i) {
-			c_layer = ptr->hlayer[i - 1];
-		} else {
-			c_layer = ptr->layer[INPUT];
-		}
 
-		tmp = malloc(sizeof(double *) * p_layer->n_nodes);
-		for (int i = 0; i < p_layer->n_nodes; i++) {
-			tmp[i] = malloc(sizeof(double));
-			tmp[i][0] = p_layer->derr_dout[i] *
-			    p_layer->dout_din[i];
-		}
-		double **tmp1 = transpose(m_layer->weights,
-					  m_layer->wr, m_layer->wc);
-
-		double **tmp2 = matmul(tmp1, m_layer->wc, m_layer->wr,
-				       tmp, p_layer->n_nodes, 1);
-
-		if (m_layer->derr_dout == NULL) {
-			m_layer->derr_dout = malloc(sizeof(double)
-						    * m_layer->n_nodes);
-		}
-
-		for (int i = 0; i < m_layer->wc; i++)
-			free(tmp1[i]);
-		free(tmp1);
-
-		for (int i = 0; i < m_layer->n_nodes; i++) {
-			m_layer->derr_dout[i] = tmp2[i][0];
-			m_layer->dout_din[i] =
-			    activate_deriv(m_layer->unactiv_nodes[i][0],
-					   m_layer->alpha,
-					   m_layer->act_code);
-			tmp2[i][0] = m_layer->derr_dout[i]
-			    * m_layer->dout_din[i];
-		}
-
-		if (m_layer->din_dw == NULL) {
-			m_layer->din_dw = malloc(sizeof(double *));
-			m_layer->din_dw[0] = malloc(sizeof(double)
-						    * m_layer->n_nodes);
-		}
-
-		for (int i = 0; i < c_layer->n_nodes; i++) {
-			m_layer->din_dw[0][i] = c_layer->nodes[i][0];
-		}
-
-		if (m_layer->derr_dw != NULL) {
-			for (int i = 0; i < c_layer->wr; i++)
-				free(m_layer->derr_dw[i]);
-			free(m_layer->derr_dw);
-		}
-
-		m_layer->derr_dw = matmul(tmp2, m_layer->n_nodes, 1,
-					  m_layer->din_dw, 1,
-					  c_layer->n_nodes);
-
-		for (int i = 0; i < c_layer->wr; i++)
-			for (int j = 0; j < c_layer->wc; j++)
-				c_layer->weights[i][j] -=
-				    lr * m_layer->derr_dw[i][j];
-
-		for (int i = 0; i < p_layer->n_nodes; i++)
-			c_layer->bias -= lr * tmp[i][0];
-
-		for (int i = 0; i < m_layer->n_nodes; i++)
-			free(tmp2[i]);
-		free(tmp2);
-
-		for (int i = 0; i < p_layer->n_nodes; i++)
-			free(tmp[i]);
-		free(tmp);
-
-		p_layer = m_layer;
+	for(int i = 0; i < m->n_nodes; i++) {
+		m->d2[i][0] = activate_deriv(m->unactiv_nodes[i][0],
+				m->alpha, m->act_code);
+		m->d4[i][0] = m->d1[i][0] * m->d2[i][0];
 	}
-	c_layer = m_layer = p_layer = NULL;
+
+	if(m->d3 == NULL) {
+		m->d3 = malloc(sizeof(double));
+		m->d3[0] = malloc(sizeof(double) * c->n_nodes);
+	}
+	for(int i = 0; i < c->n_nodes; i++)
+		m->d3[0][i] = c->nodes[i][0];
+
+	if(c->df == NULL) {
+		c->df = malloc(sizeof(double) * c->wr);
+		for(int i = 0; i < c->wr; i++)
+			c->df[i] = malloc(sizeof(double) * c->wc);
+	}
+
+	matmulv(c->df, m->d4, m->n_nodes, 1, m->d3, 1, c->n_nodes);
+}
+
+void update(struct __layer * p, struct __layer * c, double lr) {
+	for(int i = 0; i < c->wr; i++)
+		for(int j = 0; j < c->wc; j++)
+			c->weights[i][j] -= lr * c->df[i][j];
+
+	for(int i = 0; i < p->n_nodes; i++)
+		c->bias -= lr * p->d4[i][0];
+}
+
+void backprop(struct ann * ptr, double * in, double * target, double lr) {
+	feed_fwd(ptr, in);
+
+	struct __layer *c, *m, *p;
+	c = m = p = NULL;
+
+	p = ptr->layer[OUTPUT];
+
+	if(ptr->n_hlayers) {
+		m = ptr->hlayer[ptr->n_hlayers-1];
+		if(ptr->n_hlayers == 1)
+			c = ptr->layer[INPUT];
+		else
+			c = ptr->hlayer[ptr->n_hlayers -2];
+	}
+	else {
+		m = ptr->layer[INPUT];
+	}
+
+	__backprop_o(p, m, target);
+	update(p, m, lr);
+
+	int i = ptr->n_hlayers;
+
+	while(i) {
+		__backprop_h(p, m, c);
+		update(m, c, lr);
+
+		p = m, m = c, i--;
+
+		switch(i) {
+			case 0:
+				c = NULL;
+				break;
+			case 1:
+				c = ptr->layer[INPUT];
+				break;
+			default:
+				c = ptr->hlayer[i-2];
+				break;
+		}
+	}
+
+	p = m = c = NULL;
 }

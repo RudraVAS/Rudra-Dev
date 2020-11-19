@@ -2,6 +2,10 @@
 #include "rudra/ann/structure.h"
 #include "rudra/ann/activation.h"
 #include "rudra/ann/xalloc.h"
+#include <time.h>
+#include <stdio.h>
+#include <string.h>
+
 
 void varset(double *ptr, unsigned size, double c)
 {
@@ -38,18 +42,27 @@ void def_set(struct __layer *ptr, unsigned wr, unsigned wc)
 
 	if (wr) {
 		ptr->weights = malloc(sizeof(double *) * wr);
+//		ptr->df = malloc(sizeof(double *) * wr);
 		for (int i = 0; i < wr; i++) {
 			ptr->weights[i] = malloc(sizeof(double) * wc);
+//			ptr->df = malloc(sizeof(double) * wc);
 			rand_varset(ptr->weights[i], wc);
 		}
 	} else {
 		ptr->wc = 0;
 	}
 
-	ptr->dout_din = malloc(sizeof(double) * ptr->n_nodes);
-	ptr->derr_dout = NULL;
-	ptr->din_dw = NULL;
-	ptr->derr_dw = NULL;
+	ptr->d1 = malloc(sizeof(double) * ptr->n_nodes);
+	ptr->d2 = malloc(sizeof(double) * ptr->n_nodes);
+	ptr->d4 = malloc(sizeof(double) * ptr->n_nodes);
+
+	for(int i = 0; i < ptr->n_nodes; i++) {
+		ptr->d1[i] = malloc(sizeof(double));
+		ptr->d2[i] = malloc(sizeof(double));
+		ptr->d4[i] = malloc(sizeof(double));
+	}
+
+	ptr->d3 = ptr->df = NULL;
 }
 
 struct ann *init(unsigned n_inputs, unsigned n_outputs)
@@ -70,6 +83,21 @@ struct ann *init(unsigned n_inputs, unsigned n_outputs)
 
 	in = out = NULL;
 	return ret;
+}
+
+void re_set(struct __layer *ptr, unsigned wr, unsigned wc)
+{
+	for (int i = 0; i < ptr->wr; i++)
+		free(ptr->weights[i]);
+	free(ptr->weights);
+
+	ptr->wr = wr;
+	ptr->wc = wc;
+	ptr->weights = malloc(sizeof(double *) * wr);
+	for (int i = 0; i < wr; i++) {
+		ptr->weights[i] = malloc(sizeof(double) * wc);
+		rand_varset(ptr->weights[i], wc);
+	}
 }
 
 struct ann *add_layer(struct ann *ptr, unsigned n_nodes)

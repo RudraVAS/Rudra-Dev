@@ -17,10 +17,11 @@ extern "C" {
 		double **unactiv_nodes;
 		double **nodes;
 		double **weights;
-		double **derr_dw;
-		double *derr_dout;
-		double *dout_din;
-		double **din_dw;
+		double **d1;
+		double **d2;
+		double **d3;
+		double **d4;
+		double **df;
 	};
 
 	struct ann {

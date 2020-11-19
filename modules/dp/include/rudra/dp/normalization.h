@@ -16,18 +16,12 @@ extern "C"
 #endif	/* __cplusplus */
 
 #include <stdlib.h>
-
-enum n_types {
-	NORMALIZE_Z,
-	NORMALIZE_LOG,
-	NORMALIZE_MINIMAX
-};
-
+#include "def.h"
 
 void rudra_zscore (double **, size_t, size_t);
 void rudra_logscale (double **, size_t, size_t, size_t);
 void rudra_minmax (double **, size_t, size_t);
-void normalization (double **, size_t, size_t, size_t, enum n_types);
+void normalization (double **, size_t, size_t, size_t, enum n_type);
 
 #ifdef __cplusplus
 }
