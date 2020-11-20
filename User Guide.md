@@ -14,8 +14,9 @@ Rudra is an Open Source Neural Network with both CPU and GPU Optimization in C l
   <tr>
     <th>Function Prototype</th>
      <th>Description</th>
-    <th>Arguements and Return Type</th>
-    <th>Example</th>
+    <th>Return Type</th>
+    <th>Arguement</th>
+    
   </tr>
   <tr>
     <td>double **f2m(char *fname, unsigned char delimiter)</td>
