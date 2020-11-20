@@ -21,13 +21,13 @@ Rudra is an Open Source Neural Network with both CPU and GPU Optimization in C l
   <tr>
     <td>double **f2m(char *fname, unsigned char delimiter)</td>
     <td>Function to convert .csv file to a 2-d matrix</td>
-    <td>Return type-: 2-d Matrix pointer <br> Arguements:<br></td>
+    <td>2-d Matrix pointer <br> Arguements:<br></td>
     <td></td>
   </tr>
   <tr>
     <td>FILE *m2f(char *fname, double **matrix, unsigned long row,unsigned long col)</td>
     <td>Funtion to convert 2-d matrix to .csv ( For Saving the final .csv file)</td>
-    <td>Return Type-: FILE</td>
+    <td>FILE poiner</td>
   </tr>
    <tr>
     <td>void normalization(double **raw_data, size_t m, size_t n, size_t b,enum n_type decision)</td>
