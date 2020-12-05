@@ -2,6 +2,7 @@
 #define __CSV_H
 
 #include <stdio.h>
+#include "def.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -18,8 +19,8 @@ extern "C" {
 #define __SPACE		' '
 
 char ** read_csv (char *, unsigned char);
-double ** f2m (char *, unsigned char);
-FILE * m2f(char *, double **, unsigned long, unsigned long);
+TYPE ** f2m (char *, unsigned char);
+FILE * m2f(char *, TYPE **, unsigned long, unsigned long);
 
 #ifdef __cplusplus
 }

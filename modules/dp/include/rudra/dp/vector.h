@@ -37,9 +37,9 @@ struct __vector {
 #define vec_push(v, x) printf("%d ", x)
 #endif
 #define __vec_fit(v, n) (vec_len(v) + n <= vec_cap(v) ? 0 :	\
-			(v = __vec_grow(v, vec_len(v) + n, sizeof(*v))))
+			(v = __dp_vec_grow(v, vec_len(v) + n, sizeof(*v))))
 
-void * __vec_grow(void *, size_t, size_t);
+void * __dp_vec_grow(void *, size_t, size_t);
 
 #ifdef __cplusplus
 }

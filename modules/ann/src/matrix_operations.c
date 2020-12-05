@@ -1,4 +1,4 @@
-#include "rudra/ann/matrix_operations.h"
+#include "../include/rudra/ann/matrix_operations.h"
 #include <stdlib.h>
 #include <assert.h>
 
@@ -11,11 +11,11 @@
  *
  * return: dynamic matrix
  */
-double **m2p(int r, int c, double arr[r][c])
+TYPE **m2p(int r, int c, TYPE arr[r][c])
 {
-	double **ret = malloc(r * sizeof(double *));
+	TYPE **ret = malloc(r * sizeof(TYPE *));
 	for (int i = 0; i < r; i++)
-		ret[i] = malloc(sizeof(double) * c);
+		ret[i] = malloc(sizeof(TYPE) * c);
 
 	for (int i = 0; i < r; i++)
 		for (int j = 0; j < c; j++)
@@ -37,8 +37,8 @@ double **m2p(int r, int c, double arr[r][c])
  *
  * return: dot product for the two.
  */
-void matmulv(double ** ret, double **arr1, unsigned long r1, unsigned long c1,
-		double **arr2, unsigned long r2, unsigned long c2)
+void matmulv(TYPE ** ret, TYPE **arr1, unsigned long r1, unsigned long c1,
+		TYPE **arr2, unsigned long r2, unsigned long c2)
 {
 	assert(c1 == r2);
 
@@ -47,7 +47,7 @@ void matmulv(double ** ret, double **arr1, unsigned long r1, unsigned long c1,
 	for (i = 0; i < r1; i++) {
 		for (j = 0; j < c2; j++) {
 			int k = 0, m = 0;
-			double stemp = 0.0;
+			TYPE stemp = 0.0;
 
 			m = c1 % 5;
 
@@ -69,13 +69,13 @@ void matmulv(double ** ret, double **arr1, unsigned long r1, unsigned long c1,
 	}
 }
 
-double ** matmul(double ** arr1, unsigned long r1, unsigned long c1,
-		double ** arr2, unsigned long r2, unsigned long c2) {
-	double ** ret;
-	ret = malloc(sizeof(double *) * r1);
+TYPE ** matmul(TYPE ** arr1, unsigned long r1, unsigned long c1,
+		TYPE ** arr2, unsigned long r2, unsigned long c2) {
+	TYPE ** ret;
+	ret = malloc(sizeof(TYPE *) * r1);
 
 	for(int i = 0; i < r1; i++)
-		ret[i] = malloc(sizeof(double) * c2);
+		ret[i] = malloc(sizeof(TYPE) * c2);
 
 	matmulv(ret, arr1, r1, c1, arr2, r2, c2);
 
@@ -93,15 +93,15 @@ double ** matmul(double ** arr1, unsigned long r1, unsigned long c1,
  *
  * return: void
  */
-void delcol(double **mat, unsigned long r, unsigned long c,
+void delcol(TYPE **mat, unsigned long r, unsigned long c,
 	    unsigned long rem)
 {
 	unsigned long i, j;
-	double **ret;
+	TYPE **ret;
 
-	ret = malloc(sizeof(double *) * r);
+	ret = malloc(sizeof(TYPE *) * r);
 	for (i = 0; i < r; i++) {
-		ret[i] = malloc(sizeof(double) * (c - 1));
+		ret[i] = malloc(sizeof(TYPE) * (c - 1));
 	}
 
 	for (i = 0; i < r; i++) {
@@ -125,16 +125,16 @@ void delcol(double **mat, unsigned long r, unsigned long c,
  * @r: no. of rows.
  * @c: no. of cols.
  *
- * return: [double **] transpose of matrix.
+ * return: [TYPE **] transpose of matrix.
  */
-double **transpose(double **arr, unsigned long r, unsigned long c)
+TYPE **transpose(TYPE **arr, unsigned long r, unsigned long c)
 {
-	double **ret;
+	TYPE **ret;
 	unsigned long i, j;
-	ret = malloc(sizeof(double *) * c);
+	ret = malloc(sizeof(TYPE *) * c);
 
 	for (i = 0; i < c; i++) {
-		ret[i] = malloc(sizeof(double) * r);
+		ret[i] = malloc(sizeof(TYPE) * r);
 	}
 
 	for (i = 0; i < c; i++)
@@ -155,20 +155,20 @@ double **transpose(double **arr, unsigned long r, unsigned long c)
  *
  * return: splitted 2D matrix.
  */
-double **split(double **matrix, unsigned long r, unsigned long c,
+TYPE **split(TYPE **matrix, unsigned long r, unsigned long c,
 	       unsigned long si, unsigned long ei, enum bool horizontal)
 {
 	assert(si < ei);
-	double **ret = NULL;
+	TYPE **ret = NULL;
 	unsigned long size = 0;
 
 	switch (horizontal) {
 	case FALSE:
 		assert(si >= 0 && ei < c);
-		ret = malloc(sizeof(double *) * r);
+		ret = malloc(sizeof(TYPE *) * r);
 		size = ei - si + 1;
 		for (int i = 0; i < r; i++) {
-			ret[i] = malloc(sizeof(double) * size);
+			ret[i] = malloc(sizeof(TYPE) * size);
 			for (int j = 0; j < size; j++)
 				ret[i][j] = matrix[i][j + si];
 		}
@@ -176,9 +176,9 @@ double **split(double **matrix, unsigned long r, unsigned long c,
 	case TRUE:
 		assert(si >= 0 && ei < r);
 		size = ei - si + 1;
-		ret = malloc(sizeof(double *) * size);
+		ret = malloc(sizeof(TYPE *) * size);
 		for (int i = 0; i < size; i++) {
-			ret[i] = malloc(sizeof(double) * c);
+			ret[i] = malloc(sizeof(TYPE) * c);
 			for (int j = 0; j < c; j++)
 				ret[i][j] = matrix[i + si][j];
 		}
@@ -188,7 +188,7 @@ double **split(double **matrix, unsigned long r, unsigned long c,
 }
 
 
-void scalar_add(double a, double **arr, unsigned long r, unsigned long c)
+void scalar_add(TYPE a, TYPE **arr, unsigned long r, unsigned long c)
 {
 	for (int i = 0; i < r; i++)
 		for (int j = 0; j < c; j++)

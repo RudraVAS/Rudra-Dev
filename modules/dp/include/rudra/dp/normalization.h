@@ -10,6 +10,8 @@
 #ifndef RUDRA_NORMALIZATION_H
 #define RUDRA_NORMALIZATION_H
 
+#include "def.h"
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -18,10 +20,10 @@ extern "C"
 #include <stdlib.h>
 #include "def.h"
 
-void rudra_zscore (double **, size_t, size_t);
-void rudra_logscale (double **, size_t, size_t, size_t);
-void rudra_minmax (double **, size_t, size_t);
-void normalization (double **, size_t, size_t, size_t, enum n_type);
+void rudra_zscore (TYPE **, size_t, size_t);
+void rudra_logscale (TYPE **, size_t, size_t, size_t);
+void rudra_minmax (TYPE **, size_t, size_t);
+void normalization (TYPE **, size_t, size_t, size_t, enum n_type);
 
 #ifdef __cplusplus
 }

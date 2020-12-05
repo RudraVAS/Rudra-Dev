@@ -1,6 +1,8 @@
 #ifndef RUDRA_MATRIX_H
 #define RUDRA_MATRIX_H
 
+#include "def.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif				/* __cplusplus */
@@ -10,17 +12,17 @@ extern "C" {
 		TRUE
 	};
 
-	double **m2p(int r, int c, double arr[r][c]);
-	void matmulv(double **, double **, unsigned long, unsigned long,
-			double **, unsigned long, unsigned long);
-	double **matmul(double **, unsigned long, unsigned long,
-			double **, unsigned long, unsigned long);
-	double **transpose(double **, unsigned long, unsigned long);
-	double **split(double **, unsigned long, unsigned long,
+	TYPE **m2p(int r, int c, TYPE arr[r][c]);
+	void matmulv(TYPE **, TYPE **, unsigned long, unsigned long,
+			TYPE **, unsigned long, unsigned long);
+	TYPE **matmul(TYPE **, unsigned long, unsigned long,
+			TYPE **, unsigned long, unsigned long);
+	TYPE **transpose(TYPE **, unsigned long, unsigned long);
+	TYPE **split(TYPE **, unsigned long, unsigned long,
 		       unsigned long, unsigned long, enum bool);
-	void scalar_add(double, double **, unsigned long, unsigned long);
+	void scalar_add(TYPE, TYPE **, unsigned long, unsigned long);
 
-	void delcol(double **, unsigned long, unsigned long,
+	void delcol(TYPE **, unsigned long, unsigned long,
 		    unsigned long);
 
 #ifdef __cplusplus

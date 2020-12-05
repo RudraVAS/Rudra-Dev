@@ -6,9 +6,10 @@ extern "C" {
 #endif
 
 #include "structure.h"
+#include "def.h"
 
-void feed_fwd(struct ann *, double *);
-void backprop(struct ann *, double *, double *, double);
+void feed_fwd(struct ann *, TYPE *);
+void backprop(struct ann *, TYPE *, TYPE *, TYPE);
 
 #ifdef __cplusplus        
 }

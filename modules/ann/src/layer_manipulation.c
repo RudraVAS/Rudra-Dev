@@ -1,19 +1,19 @@
-#include "rudra/ann/layer_manipulation.h"
-#include "rudra/ann/structure.h"
-#include "rudra/ann/activation.h"
-#include "rudra/ann/xalloc.h"
+#include "../include/rudra/ann/layer_manipulation.h"
+#include "../include/rudra/ann/structure.h"
+#include "../include/rudra/ann/activation.h"
+#include "../include/rudra/ann/xalloc.h"
 #include <time.h>
 #include <stdio.h>
 #include <string.h>
 
 
-void varset(double *ptr, unsigned size, double c)
+void varset(TYPE *ptr, unsigned size, TYPE c)
 {
 	for (unsigned i = 0; i < size; i++)
 		ptr[i] = c;
 }
 
-void rand_varset(double *ptr, unsigned size)
+void rand_varset(TYPE *ptr, unsigned size)
 {
 	for (unsigned i = 0; i < size; i++)
 		ptr[i] = (rand() % 1000) / 1000.0;
@@ -31,35 +31,35 @@ void def_set(struct __layer *ptr, unsigned wr, unsigned wc)
 
 	ptr->bias = (rand() % 1000) / 1000.0;
 
-	ptr->unactiv_nodes = malloc(sizeof(double *) * wc);
-	ptr->nodes = malloc(sizeof(double *) * wc);
+	ptr->unactiv_nodes = malloc(sizeof(TYPE *) * wc);
+	ptr->nodes = malloc(sizeof(TYPE *) * wc);
 	for (int i = 0; i < wc; i++) {
-		ptr->unactiv_nodes[i] = malloc(sizeof(double));
-		ptr->nodes[i] = malloc(sizeof(double));
+		ptr->unactiv_nodes[i] = malloc(sizeof(TYPE));
+		ptr->nodes[i] = malloc(sizeof(TYPE));
 		ptr->unactiv_nodes[i][0] = 0;
 		ptr->nodes[i][0] = 0;
 	}
 
 	if (wr) {
-		ptr->weights = malloc(sizeof(double *) * wr);
-//		ptr->df = malloc(sizeof(double *) * wr);
+		ptr->weights = malloc(sizeof(TYPE *) * wr);
+//		ptr->df = malloc(sizeof(TYPE *) * wr);
 		for (int i = 0; i < wr; i++) {
-			ptr->weights[i] = malloc(sizeof(double) * wc);
-//			ptr->df = malloc(sizeof(double) * wc);
+			ptr->weights[i] = malloc(sizeof(TYPE) * wc);
+//			ptr->df = malloc(sizeof(TYPE) * wc);
 			rand_varset(ptr->weights[i], wc);
 		}
 	} else {
 		ptr->wc = 0;
 	}
 
-	ptr->d1 = malloc(sizeof(double) * ptr->n_nodes);
-	ptr->d2 = malloc(sizeof(double) * ptr->n_nodes);
-	ptr->d4 = malloc(sizeof(double) * ptr->n_nodes);
+	ptr->d1 = malloc(sizeof(TYPE) * ptr->n_nodes);
+	ptr->d2 = malloc(sizeof(TYPE) * ptr->n_nodes);
+	ptr->d4 = malloc(sizeof(TYPE) * ptr->n_nodes);
 
 	for(int i = 0; i < ptr->n_nodes; i++) {
-		ptr->d1[i] = malloc(sizeof(double));
-		ptr->d2[i] = malloc(sizeof(double));
-		ptr->d4[i] = malloc(sizeof(double));
+		ptr->d1[i] = malloc(sizeof(TYPE));
+		ptr->d2[i] = malloc(sizeof(TYPE));
+		ptr->d4[i] = malloc(sizeof(TYPE));
 	}
 
 	ptr->d3 = ptr->df = NULL;
@@ -93,9 +93,9 @@ void re_set(struct __layer *ptr, unsigned wr, unsigned wc)
 
 	ptr->wr = wr;
 	ptr->wc = wc;
-	ptr->weights = malloc(sizeof(double *) * wr);
+	ptr->weights = malloc(sizeof(TYPE *) * wr);
 	for (int i = 0; i < wr; i++) {
-		ptr->weights[i] = malloc(sizeof(double) * wc);
+		ptr->weights[i] = malloc(sizeof(TYPE) * wc);
 		rand_varset(ptr->weights[i], wc);
 	}
 }

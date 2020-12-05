@@ -1,11 +1,11 @@
-#include "rudra/ann/propogation.h"
-#include "rudra/ann/structure.h"
-#include "rudra/ann/matrix_operations.h"
-#include "rudra/ann/activation.h"
+#include "../include/rudra/ann/propogation.h"
+#include "../include/rudra/ann/structure.h"
+#include "../include/rudra/ann/matrix_operations.h"
+#include "../include/rudra/ann/activation.h"
 #include <stddef.h>
 #include <stdlib.h>
 
-void feed_fwd(struct ann *ptr, double *in)
+void feed_fwd(struct ann *ptr, TYPE *in)
 {
 	unsigned i, j, k;
 	for (int i = 0; i < ptr->layer[INPUT]->n_nodes; i++) {
@@ -55,12 +55,12 @@ void feed_fwd(struct ann *ptr, double *in)
 	}
 }
 
-double cost_deriv(double target, double output)
+TYPE cost_deriv(TYPE target, TYPE output)
 {
 	return output - target;
 }
 
-void __backprop_o(struct __layer * p, struct __layer * c, double * target) {
+void __backprop_o(struct __layer * p, struct __layer * c, TYPE * target) {
 	for(int i = 0; i < p->n_nodes; i++) {
 		p->d1[i][0] = cost_deriv(target[i], p->nodes[i][0]);
 		p->d2[i][0] = activate_deriv(p->unactiv_nodes[i][0],
@@ -69,8 +69,8 @@ void __backprop_o(struct __layer * p, struct __layer * c, double * target) {
 	}
 
 	if(p->d3 == NULL) {
-		p->d3 = malloc(sizeof(double));
-		p->d3[0] = malloc(sizeof(double) * c->n_nodes);
+		p->d3 = malloc(sizeof(TYPE));
+		p->d3[0] = malloc(sizeof(TYPE) * c->n_nodes);
 	}
 
 	for(int i = 0; i < c->n_nodes; i++) {
@@ -78,16 +78,16 @@ void __backprop_o(struct __layer * p, struct __layer * c, double * target) {
 	}
 
 	if(c->df == NULL) {
-		c->df = malloc(sizeof(double) * c->wr);
+		c->df = malloc(sizeof(TYPE) * c->wr);
 		for(int i = 0; i < c->wr; i++)
-			c->df[i] = malloc(sizeof(double) * c->wc);
+			c->df[i] = malloc(sizeof(TYPE) * c->wc);
 	}
 
 	matmulv(c->df, p->d4, p->n_nodes, 1, p->d3, 1, c->n_nodes);
 }
 
 void __backprop_h(struct __layer * p, struct __layer *m, struct __layer *c) {
-	double ** tmp = transpose(m->weights, m->wr, m->wc);
+	TYPE ** tmp = transpose(m->weights, m->wr, m->wc);
 
 	matmulv(m->d1, tmp, m->wc, m->wr, p->d4, p->n_nodes, 1);
 
@@ -102,22 +102,22 @@ void __backprop_h(struct __layer * p, struct __layer *m, struct __layer *c) {
 	}
 
 	if(m->d3 == NULL) {
-		m->d3 = malloc(sizeof(double));
-		m->d3[0] = malloc(sizeof(double) * c->n_nodes);
+		m->d3 = malloc(sizeof(TYPE));
+		m->d3[0] = malloc(sizeof(TYPE) * c->n_nodes);
 	}
 	for(int i = 0; i < c->n_nodes; i++)
 		m->d3[0][i] = c->nodes[i][0];
 
 	if(c->df == NULL) {
-		c->df = malloc(sizeof(double) * c->wr);
+		c->df = malloc(sizeof(TYPE) * c->wr);
 		for(int i = 0; i < c->wr; i++)
-			c->df[i] = malloc(sizeof(double) * c->wc);
+			c->df[i] = malloc(sizeof(TYPE) * c->wc);
 	}
 
 	matmulv(c->df, m->d4, m->n_nodes, 1, m->d3, 1, c->n_nodes);
 }
 
-void update(struct __layer * p, struct __layer * c, double lr) {
+void update(struct __layer * p, struct __layer * c, TYPE lr) {
 	for(int i = 0; i < c->wr; i++)
 		for(int j = 0; j < c->wc; j++)
 			c->weights[i][j] -= lr * c->df[i][j];
@@ -126,7 +126,7 @@ void update(struct __layer * p, struct __layer * c, double lr) {
 		c->bias -= lr * p->d4[i][0];
 }
 
-void backprop(struct ann * ptr, double * in, double * target, double lr) {
+void backprop(struct ann * ptr, TYPE * in, TYPE * target, TYPE lr) {
 	feed_fwd(ptr, in);
 
 	struct __layer *c, *m, *p;

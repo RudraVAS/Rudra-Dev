@@ -1,8 +1,8 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "rudra/dp/def.h"
-#include "rudra/dp/normalization.h"
+#include "../include/rudra/dp/def.h"
+#include "../include/rudra/dp/normalization.h"
 
 /**
  * rudra_zscore: Normalize the data set using the formula
@@ -14,11 +14,11 @@
  *
  * return: void
  */
-void rudra_zscore(double **raw_data, size_t n_rows, size_t n_cols)
+void rudra_zscore(TYPE **raw_data, size_t n_rows, size_t n_cols)
 {
 	size_t i, j;
-	double mean[n_cols], std_dev[n_cols];
-	double value, sum, sq_sum;
+	TYPE mean[n_cols], std_dev[n_cols];
+	TYPE value, sum, sq_sum;
 	for (i = 0; i < n_cols; i++) {
 		sum = 0.0;
 		for (j = 0; j < n_rows; j++) {
@@ -47,11 +47,11 @@ void rudra_zscore(double **raw_data, size_t n_rows, size_t n_cols)
  *
  * return: void
  */
-void rudra_logscale(double **raw_data, size_t n_rows, size_t n_cols,
+void rudra_logscale(TYPE **raw_data, size_t n_rows, size_t n_cols,
 		    size_t base)
 {
 	size_t i, j;
-	double value;
+	TYPE value;
 	for (i = 0; i < n_cols; i++) {
 		for (j = 0; j < n_rows; j++) {
 			value = (log(raw_data[j][i])) / (log(base));
@@ -71,11 +71,11 @@ void rudra_logscale(double **raw_data, size_t n_rows, size_t n_cols,
  *
  * return: void
  */
-void rudra_minmax(double **raw_data, size_t n_rows, size_t n_cols)
+void rudra_minmax(TYPE **raw_data, size_t n_rows, size_t n_cols)
 {
 	int i, j;
-	double value;
-	double min[n_cols], max[n_cols];
+	TYPE value;
+	TYPE min[n_cols], max[n_cols];
 	for (i = 0; i < n_cols; i++) {
 		min[i] = 1000000000000;
 		for (j = 0; j < n_rows; j++) {
@@ -107,7 +107,7 @@ void rudra_minmax(double **raw_data, size_t n_rows, size_t n_cols)
  *
  * return: void
  */
-void normalization(double **raw_data, size_t m, size_t n, size_t b,
+void normalization(TYPE **raw_data, size_t m, size_t n, size_t b,
 		   enum n_type decision)
 {
 	switch (decision) {

@@ -1,8 +1,8 @@
-#include "rudra/ann/optimizer.h"
+#include "../include/rudra/ann/optimizer.h"
 #include <stdlib.h>
 #include <time.h>
-#include "rudra/ann/vector.h"
-#include "rudra/ann/propogation.h"
+#include "../include/rudra/ann/vector.h"
+#include "../include/rudra/ann/propogation.h"
 
 /**
  * shuffle: shuffle a matrix on basis of row.
@@ -12,10 +12,10 @@
  *
  * return: void
  */
-void shuffle(double **a, double **b, unsigned row)
+void shuffle(TYPE **a, TYPE **b, unsigned row)
 {
 	unsigned index;
-	double *tmp;
+	TYPE *tmp;
 	srand(time(0));
 	for (int i = row - 1; i >= 0; i--) {
 		index = (rand() % row);
@@ -36,25 +36,39 @@ void shuffle(double **a, double **b, unsigned row)
  *
  * @ptr: main ann structure for the given data.
  * @input: matrix containing the input.
- * @i_row: no. of rows in input matrix.
- * @i_col: no. of cols in input matrix.
  * @output: matrix containing the output.
- * @o_row: no. of rows in output matrix.
- * @o_col: no. of cols in output matrix.
+ * @i_row: no. of rows in input matrix.
  * @batch_size: no. of rows in each batch.
  * @lr: learning rate
  *
  * return: void
  */
-void SGD(struct ann *ptr, double **input, double **output,
-	unsigned batch_size, double lr)
+
+/*
+void SGD(struct ann *ptr, TYPE **input, TYPE **output,
+	unsigned long ir, unsigned batch_size, TYPE lr)
 {
-	shuffle(input, output, vec_row(input));
+	shuffle(input, output, ir);
 
-	short n_batch = vec_row(input) / batch_size;
+	short n_batch = ir / batch_size;
 
-	for (unsigned i = 0; i < vec_row(input); i += batch_size) {
+	for (unsigned i = 0; i < ir; i += batch_size) {
 		for (unsigned j = 0; j < batch_size; j++)
 			backprop(ptr, input[j + i], output[j + i], lr);
+	}
+}
+*/
+void SGD(struct ann *ptr, TYPE **input, TYPE **output, unsigned long ir,
+	unsigned batch_size, TYPE lr)
+{
+	shuffle(input, output, ir);
+
+	short n_batch = ir / batch_size;
+
+	for (unsigned i = 0; i < ir; i += batch_size) {
+		for (unsigned j = 0; j < batch_size && i+j < ir; j++){
+//			printf("%d %d %d\n", i, j, j+i);
+			backprop(ptr, input[j + i], output[j + i], lr);
+		}
 	}
 }

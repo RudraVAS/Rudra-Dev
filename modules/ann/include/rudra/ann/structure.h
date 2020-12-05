@@ -10,18 +10,18 @@ extern "C" {
 	struct __layer {
 		unsigned short n_nodes;
 		unsigned short wc, wr;
-		double alpha;
+		TYPE alpha;
 		enum a_type act_code;
 		enum n_type nor_code;
-		double bias;
-		double **unactiv_nodes;
-		double **nodes;
-		double **weights;
-		double **d1;
-		double **d2;
-		double **d3;
-		double **d4;
-		double **df;
+		TYPE bias;
+		TYPE **unactiv_nodes;
+		TYPE **nodes;
+		TYPE **weights;
+		TYPE **d1;
+		TYPE **d2;
+		TYPE **d3;
+		TYPE **d4;
+		TYPE **df;
 	};
 
 	struct ann {

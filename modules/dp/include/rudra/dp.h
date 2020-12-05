@@ -10,6 +10,7 @@ extern "C" {
 #include "rudra/dp/normalization.h"
 #include "rudra/dp/vector.h"
 #include "rudra/dp/xalloc.h"
+#include "rudra/dp/missing_data.h"
 
 #ifdef __cplusplus
 }

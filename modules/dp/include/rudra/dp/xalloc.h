@@ -7,9 +7,9 @@
 extern "C" {
 #endif
 
-void * xmalloc(size_t __size);
-void * xrealloc(void * __ptr, size_t __size);
-void __garbage_collector() __attribute__ ((destructor));
+void * dp_xmalloc(size_t __size);
+void * dp_xrealloc(void * __ptr, size_t __size);
+void __dp_garbage_collector() __attribute__ ((destructor));
 
 #ifndef xfree
 #define xfree(__ptr)				\

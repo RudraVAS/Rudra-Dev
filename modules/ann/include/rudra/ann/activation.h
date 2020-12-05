@@ -7,8 +7,8 @@
 extern "C" {
 #endif				/* __cplusplus */
 
-	void activate(double *, unsigned long, double, enum a_type);
-	double activate_deriv(double, double, enum a_type);
+	void activate(TYPE *, unsigned long, TYPE, enum a_type);
+	TYPE activate_deriv(TYPE, TYPE, enum a_type);
 
 #ifdef __cplusplus
 }

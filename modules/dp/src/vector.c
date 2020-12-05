@@ -1,7 +1,9 @@
-#include "rudra/dp/vector.h"
+#include "../include/rudra/dp/vector.h"
+#include "../include/rudra/dp/xalloc.h"
+
 #define USE_XALLOC	1
 
-void *__vec_grow(void *buffer, size_t min_size, size_t elem_size)
+void *__dp_vec_grow(void *buffer, size_t min_size, size_t elem_size)
 {
 	size_t new_cap = 1 + 2 * vec_cap(buffer);
 	new_cap = MAX(new_cap, min_size);
@@ -11,13 +13,13 @@ void *__vec_grow(void *buffer, size_t min_size, size_t elem_size)
 
 	if (buffer) {
 #ifdef USE_XALLOC
-		t_buf = xrealloc(__vec_hdr(buffer), new_size);
+		t_buf = dp_xrealloc(__vec_hdr(buffer), new_size);
 #else
 		t_buf = realloc(__vec_hdr(buffer), new_size);
 #endif
 	} else {
 #ifdef USE_XALLOC
-		t_buf = xmalloc(new_size);
+		t_buf = dp_xmalloc(new_size);
 #else
 		t_buf = malloc(new_size);
 #endif

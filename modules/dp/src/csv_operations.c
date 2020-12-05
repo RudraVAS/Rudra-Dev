@@ -5,9 +5,9 @@
 
 #include <stdio.h>
 #include <assert.h>
-#include "rudra/dp/csv_operations.h"
-#include "rudra/dp/vector.h"
-#include "rudra/dp/xalloc.h"
+#include "../include/rudra/dp/csv_operations.h"
+#include "../include/rudra/dp/vector.h"
+#include "../include/rudra/dp/xalloc.h"
 
 #define USE_XALLOC	1
 
@@ -64,7 +64,7 @@ char **read_csv(char *__fname, unsigned char __delimiter)
 	char f = 0;
 	char exit_now = 0;
 
-	double tmp;
+	TYPE tmp;
 	char __ch = getc(__fptr);
 	unsigned long __col = 0;
 
@@ -119,7 +119,7 @@ char **read_csv(char *__fname, unsigned char __delimiter)
 }
 
 /**
- * f2matrix: returns a matrix(double) for the given csv file name.
+ * f2matrix: returns a matrix(TYPE) for the given csv file name.
  *
  * @fname: file name(*.csv)
  * @delimiter: seperating constraints. Currently supported constraints:
@@ -128,21 +128,36 @@ char **read_csv(char *__fname, unsigned char __delimiter)
  *	~ SEMICOLAN
  *	~ SPACE
  */
-double **f2m(char *fname, unsigned char delimiter)
+TYPE **f2m(char *fname, unsigned char delimiter)
 {
 	char **cmatrix = read_csv(fname, delimiter);
 	char *ctmp = NULL;
+	char *ntmp = NULL;
 
-	double **ret = NULL;
-	double *tmp = NULL;
-	double val;
+	TYPE **ret = NULL;
+	TYPE *tmp = NULL;
+	TYPE val;
 
 	unsigned long row = vec_row(cmatrix);
 	unsigned long col = vec_col(cmatrix);
 //	printf("csv->f2matrix->cmatrix[] | csv->f2matrix->tmp\n");
 	for (unsigned long i = 0; i < row; i++) {
 		for (unsigned long j = 0; j < col; j++) {
-			val = strtod(cmatrix[i * col + j], &ctmp);
+			val = (sizeof(TYPE) == sizeof(double)) ?
+				strtod(cmatrix[i * col + j], &ctmp) :
+				strtof(cmatrix[i * col + j], &ctmp);
+
+			if(val == 0.0){
+				ntmp = cmatrix[i*col+j];
+				while(*ntmp!='\0') {
+					if(*ntmp == '0')
+						goto okay_tested;
+					ntmp++;
+				}
+				val = 0.0/0.0;
+			}
+okay_tested:
+
 			vec_push(tmp, val);
 			ctmp = NULL;
 		}
@@ -166,7 +181,7 @@ DEBUG
 	return ret;
 }
 
-FILE *m2f(char *fname, double **matrix, unsigned long row,
+FILE *m2f(char *fname, TYPE **matrix, unsigned long row,
 	       unsigned long col)
 {
 	FILE *fptr = fopen(fname, "w");

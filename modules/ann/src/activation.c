@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
-#include "rudra/ann/activation.h"
+#include "../include/rudra/ann/activation.h"
 
 /**
  * rudra_linear - activation function used the formula (value*contant) to
@@ -10,9 +10,9 @@
  * @z - input feature value to be transformed to range
  * @m - Constant term mutiplied with each z
  * 
- * Return Type - double tranformed output feature value
+ * Return Type - TYPE tranformed output feature value
  */
-double rudra_linear(double z, double m)
+TYPE rudra_linear(TYPE z, TYPE m)
 {
 	return (z * m);
 }
@@ -23,11 +23,11 @@ double rudra_linear(double z, double m)
  * 
  * @z - input feature value to be transformed
  * @alpha - constant used in ELU activation function
- * Return Type - double tranformed output feature value 
+ * Return Type - TYPE tranformed output feature value 
  * 
  * TODO:  Null
  */
-double rudra_elu(double z, double alpha)
+TYPE rudra_elu(TYPE z, TYPE alpha)
 {
 	return ((z > 0) ? z : (alpha * (exp(z) - 1)));
 }
@@ -37,11 +37,11 @@ double rudra_elu(double z, double alpha)
  * 	for output matrix 
  *
  * @z - input feature value to be transformed
- * Return Type - double tranformed output feature value 
+ * Return Type - TYPE tranformed output feature value 
  * 
  * TODO:  Null
  */
-double rudra_relu(double z)
+TYPE rudra_relu(TYPE z)
 {
 	return (z > 0) ? z : 0;
 }
@@ -51,10 +51,10 @@ double rudra_relu(double z)
  * 
  * @z - input feature value to be transformed
  * @alpha - constant used in this activation function
- * Return Type - double tranformed output feature value  
+ * Return Type - TYPE tranformed output feature value  
  * TODO:  Null
  */
-double rudra_leakyrelu(double z, double alpha)
+TYPE rudra_leakyrelu(TYPE z, TYPE alpha)
 {
 	return ((z > 0) ? z : (alpha * z));
 }
@@ -63,10 +63,10 @@ double rudra_leakyrelu(double z, double alpha)
 * rudra_sigmoid -activation function used the formula (1/(1+e^(-x))) to produce value for output matrix 
  * 
  * @z - input feature value to be transformed
- * Return Type - double tranformed output feature value 
+ * Return Type - TYPE tranformed output feature value 
  * TODO:  Null 
  */
-double rudra_sigmoid(double z)
+TYPE rudra_sigmoid(TYPE z)
 {
 	return 1 / (1 + exp(-z));
 }
@@ -75,10 +75,10 @@ double rudra_sigmoid(double z)
  * rudra_tan_h - activation function used the formula (tanh) to produce value for output matrix 
  * 
  * @z - input feature value to be transformed
- * Return Type - double tranformed output feature value 
+ * Return Type - TYPE tranformed output feature value 
  * TODO:  Null 
  */
-double rudra_tan_h(double z)
+TYPE rudra_tan_h(TYPE z)
 {
 	return tanh(z);
 
@@ -92,7 +92,7 @@ double rudra_tan_h(double z)
  * Return Type - derivative of activation function
  * TODO:  Null
  */
-double rudra_linear_derv(double z, double m)
+TYPE rudra_linear_derv(TYPE z, TYPE m)
 {
 	return m;
 }
@@ -106,7 +106,7 @@ double rudra_linear_derv(double z, double m)
  * Return Type - derivative of activation function
  * TODO:  Null
  */
-double rudra_elu_derv(double z, double alpha)
+TYPE rudra_elu_derv(TYPE z, TYPE alpha)
 {
 	return z > 0 ? 1 : alpha * exp(z);
 }
@@ -119,7 +119,7 @@ double rudra_elu_derv(double z, double alpha)
  * Return Type - derivative of activation function
  * TODO:  Null
  */
-double rudra_relu_derv(double z)
+TYPE rudra_relu_derv(TYPE z)
 {
 	return z > 0;
 }
@@ -132,7 +132,7 @@ double rudra_relu_derv(double z)
  * Return Type - derivative of activation function 
  * TODO:  Null
  */
-double rudra_leakyrelu_derv(double z, double alpha)
+TYPE rudra_leakyrelu_derv(TYPE z, TYPE alpha)
 {
 	return z > 0 ? 1 : alpha;
 }
@@ -145,9 +145,9 @@ double rudra_leakyrelu_derv(double z, double alpha)
  * Return Type - derivative of activation function 
  * TODO:  Null
  */
-double rudra_sigmoid_derv(double z)
+TYPE rudra_sigmoid_derv(TYPE z)
 {
-	double x = 1 / (1 + exp(-z));
+	TYPE x = 1 / (1 + exp(-z));
 	return x * (1 - x);
 }
 
@@ -158,7 +158,7 @@ double rudra_sigmoid_derv(double z)
  * Return Type - derivative of activation function 
  * TODO:  Null
  */
-double rudra_tan_h_derv(double z)
+TYPE rudra_tan_h_derv(TYPE z)
 {
 	return 1 - (pow(tanh(z), 2));
 }
@@ -171,11 +171,11 @@ double rudra_tan_h_derv(double z)
  * @z: input feature value to be transformed to range
  * @alpha: Constant used as per the activation function  and if not then any integer value is fine
  * 
- * return: double derivative of activation function 
+ * return: TYPE derivative of activation function 
  */
-double activate_deriv(double z, double alpha, enum a_type decision)
+TYPE activate_deriv(TYPE z, TYPE alpha, enum a_type decision)
 {
-	double answer;
+	TYPE answer;
 	switch (decision) {
 	case SIGMOID:
 		answer = rudra_sigmoid_derv(z);
@@ -225,10 +225,10 @@ double activate_deriv(double z, double alpha, enum a_type decision)
  * TODO:  Adding more activation functions like sofmax etc.
  */
 
-void activate(double *ptr, unsigned long size, double alpha,
+void activate(TYPE *ptr, unsigned long size, TYPE alpha,
 	      enum a_type act)
 {
-//      double * ret = malloc(sizeof(double) * size);
+//      TYPE * ret = malloc(sizeof(TYPE) * size);
 	for (int i = 0; i < size; i++) {
 		switch (act) {
 		case SIGMOID:
