@@ -39,3 +39,5 @@ set_target_properties(rudra PROPERTIES
 install(TARGETS rudra
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/rudra)
+
+target_link_libraries(rudra m)
