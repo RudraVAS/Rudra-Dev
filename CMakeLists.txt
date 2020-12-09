@@ -11,8 +11,11 @@ if(NOT CMAKE_BUILD_TYPE)
 	set(CMAKE_BUILD_TYPE Release)
 endif()
 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m64 -march=native")
 set(CMAKE_C_FLAGS_DEBUG "-g")
 set(CMAKE_C_FLAGS_RELEASE "-O3")
+
+#NMC_VECTORIZE_TARGET=AVX2
 
 add_library(rudra SHARED
     modules/ann/src/activation.c

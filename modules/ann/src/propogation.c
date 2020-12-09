@@ -7,8 +7,8 @@
 
 void feed_fwd(struct ann *ptr, TYPE *in)
 {
-	unsigned i, j, k;
-	for (int i = 0; i < ptr->layer[INPUT]->n_nodes; i++) {
+	unsigned long i, j, k;
+	for (i = 0; i < ptr->layer[INPUT]->n_nodes; i++) {
 		ptr->layer[INPUT]->nodes[i][0] = in[i];
 		ptr->layer[INPUT]->unactiv_nodes[i][0] = in[i];
 	}
@@ -69,7 +69,7 @@ void __backprop_o(struct __layer * p, struct __layer * c, TYPE * target) {
 	}
 
 	if(p->d3 == NULL) {
-		p->d3 = malloc(sizeof(TYPE));
+		p->d3 = malloc(sizeof(TYPE *));
 		p->d3[0] = malloc(sizeof(TYPE) * c->n_nodes);
 	}
 
@@ -78,7 +78,7 @@ void __backprop_o(struct __layer * p, struct __layer * c, TYPE * target) {
 	}
 
 	if(c->df == NULL) {
-		c->df = malloc(sizeof(TYPE) * c->wr);
+		c->df = malloc(sizeof(TYPE *) * c->wr);
 		for(int i = 0; i < c->wr; i++)
 			c->df[i] = malloc(sizeof(TYPE) * c->wc);
 	}
@@ -102,14 +102,14 @@ void __backprop_h(struct __layer * p, struct __layer *m, struct __layer *c) {
 	}
 
 	if(m->d3 == NULL) {
-		m->d3 = malloc(sizeof(TYPE));
+		m->d3 = malloc(sizeof(TYPE *));
 		m->d3[0] = malloc(sizeof(TYPE) * c->n_nodes);
 	}
 	for(int i = 0; i < c->n_nodes; i++)
 		m->d3[0][i] = c->nodes[i][0];
 
 	if(c->df == NULL) {
-		c->df = malloc(sizeof(TYPE) * c->wr);
+		c->df = malloc(sizeof(TYPE *) * c->wr);
 		for(int i = 0; i < c->wr; i++)
 			c->df[i] = malloc(sizeof(TYPE) * c->wc);
 	}

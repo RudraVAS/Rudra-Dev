@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m64 -march=native")
 add_library(dp SHARED
                 src/csv_operations.c
                 src/missing_data.c

@@ -52,9 +52,9 @@ void def_set(struct __layer *ptr, unsigned wr, unsigned wc)
 		ptr->wc = 0;
 	}
 
-	ptr->d1 = malloc(sizeof(TYPE) * ptr->n_nodes);
-	ptr->d2 = malloc(sizeof(TYPE) * ptr->n_nodes);
-	ptr->d4 = malloc(sizeof(TYPE) * ptr->n_nodes);
+	ptr->d1 = malloc(sizeof(TYPE *) * ptr->n_nodes);
+	ptr->d2 = malloc(sizeof(TYPE *) * ptr->n_nodes);
+	ptr->d4 = malloc(sizeof(TYPE *) * ptr->n_nodes);
 
 	for(int i = 0; i < ptr->n_nodes; i++) {
 		ptr->d1[i] = malloc(sizeof(TYPE));
@@ -163,10 +163,12 @@ void print_det(struct ann *ptr)
 
 void __cleanup(struct __layer *ptr)
 {
-	for (unsigned i = 0; i < ptr->wr; i++) {
-		free(ptr->weights[i]);
+	if(ptr->wr) {
+		for (unsigned i = 0; i < ptr->wr; i++) {
+			free(ptr->weights[i]);
+		}
+		free(ptr->weights);
 	}
-	free(ptr->weights);
 	for (unsigned i = 0; i < ptr->n_nodes; i++)
 		free(ptr->nodes[i]);
 	free(ptr->nodes);

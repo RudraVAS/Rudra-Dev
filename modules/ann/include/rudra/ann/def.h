@@ -26,7 +26,7 @@ extern "C" {
 		NORMALIZE_MINIMAX
 	};
 
-	#define TYPE double
+	#define TYPE float
 
 #ifdef __cplusplus
 }

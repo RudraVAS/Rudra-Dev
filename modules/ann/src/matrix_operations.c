@@ -1,6 +1,7 @@
 #include "../include/rudra/ann/matrix_operations.h"
 #include <stdlib.h>
 #include <assert.h>
+#include <immintrin.h>
 
 /**
  * m2p: converts a static matrix to dynamic.
@@ -82,6 +83,55 @@ TYPE ** matmul(TYPE ** arr1, unsigned long r1, unsigned long c1,
 	return ret;
 }
 
+void avx_mulv(float ** c, float ** a, unsigned long ar, unsigned long ac,
+		float ** b, unsigned long br, unsigned long bc) {
+	unsigned short n_8 = bc >> 3;
+	unsigned short rem = bc - (n_8 << 3);
+
+	static __m256_u m_a, m_b, * m_c;
+	static __m128_u _m_a, _m_b, * _m_c;
+	
+	static unsigned i, j, k, l;
+	l = n_8 << 3;
+
+	for(i = 0; i < ar; i++) {
+		for(j = 0; j < ac; j++) {
+			m_a = _mm256_broadcast_ss(&a[i][j]);
+			for(k = 0; k < n_8; k++) {
+				m_b = _mm256_loadu_ps(&(b[j][k << 3]));
+				m_c = (void *)&(c[i][k << 3]);
+				*m_c = _mm256_add_ps(*m_c, _mm256_mul_ps(m_a, m_b));
+				
+			}
+			if(rem >= 4) {
+				_m_a = _mm_broadcast_ss(&a[i][j]);
+				_m_b = _mm_loadu_ps(&(b[j][n_8 << 3]));
+				_m_c = (void *)&(c[i][n_8 << 3]);
+				*_m_c = _mm_add_ps(* _m_c, _mm_mul_ps(_m_a, _m_b));
+				for(k = l + 4; k < l + rem; k++)
+					c[i][k] += a[i][j] * b[j][k];
+			}
+			else {
+				for(k = l; k < l + rem; k++)
+					c[i][k] += a[i][j] * b[j][k];
+			}
+		}
+	}
+}
+
+float ** avx_mul(float ** a, unsigned long ar, unsigned long ac,
+		float ** b, unsigned long br, unsigned long bc) {
+	assert(ac == br);
+	float ** ret;
+	ret = malloc(sizeof(float *) * ar);
+
+	for(int i = 0; i < ar; i++)
+		ret[i] = malloc(sizeof(TYPE) * bc);
+
+	avx_mulv(ret, a, ar, ac, b, br, bc);
+	
+	return ret;
+}
 
 /**
  * delcol: remove a particular column from the matrix
