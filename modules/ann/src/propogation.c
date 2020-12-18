@@ -51,7 +51,7 @@ void feed_fwd(struct ann *ptr, TYPE *in)
 		    ptr->n_hlayers >
 		    hlayer_i ? ptr->hlayer[hlayer_i] : ptr->layer[OUTPUT];
 
-		p_layer == c_layer ? (c_layer = NULL) : 0;
+		if(p_layer == c_layer) c_layer = NULL;
 	}
 }
 
