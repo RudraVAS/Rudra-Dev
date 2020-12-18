@@ -214,7 +214,7 @@ TYPE **split(TYPE **matrix, unsigned long r, unsigned long c,
 
 	switch (horizontal) {
 	case FALSE:
-		assert(si >= 0 && ei < c);
+		assert(ei < c);
 		ret = malloc(sizeof(TYPE *) * r);
 		size = ei - si + 1;
 		for (int i = 0; i < r; i++) {
@@ -224,7 +224,7 @@ TYPE **split(TYPE **matrix, unsigned long r, unsigned long c,
 		}
 		break;
 	case TRUE:
-		assert(si >= 0 && ei < r);
+		assert(ei < r);
 		size = ei - si + 1;
 		ret = malloc(sizeof(TYPE *) * size);
 		for (int i = 0; i < size; i++) {
