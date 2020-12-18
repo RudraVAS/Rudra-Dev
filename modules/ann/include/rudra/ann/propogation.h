@@ -1,5 +1,5 @@
 #ifndef __PROPOGATION_H
-#define __PROPOGATION_h
+#define __PROPOGATION_H
 
 #ifdef __cplusplus
 extern "C" {
